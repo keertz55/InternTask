@@ -1,0 +1,32 @@
+<div class="d-flex justify-content-around">
+    <form class="mt-2">
+        <div *ngFor="let field of fields; let i = index;">
+            <div class="row">
+                <div class="col-auto">
+                    <input type="text" class="form-control" [(ngModel)]="field.name" name="name{{i}}"
+                        placeholder="enter field name">
+                </div>
+                <div class="col-auto">
+                    <select [(ngModel)]="field.type" class="form-select" name="type{{i}}" (ngModelChange)="onChange(field)">
+                        <option value="string">String</option>
+                        <option value="number">Number</option>
+                        <option value="boolean">Boolean</option>
+                        <option value="object">Object</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-info mb-3" *ngIf="field.type === 'object'" (click)="addField(field)">Add</button>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-danger mb-3" (click)="deleteField(i)">Delete</button>
+                </div>
+            </div>
+    
+            <div *ngIf="field.type === 'object'" class="m-3">
+                <app-form [fields]="field.fields" [button]="false"></app-form>
+            </div>
+        </div>
+        <button type="button" class="btn btn-success w-fit float-right" *ngIf="button && fields.length > 0"
+            (click)="saveForm()">Save</button>
+    </form>
+</div>
